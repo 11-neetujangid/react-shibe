@@ -1,21 +1,25 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getData } from "../Services/api";
 
 const Home = () => {
-    const [data, getData] = useState(() => {
-        axios.get(`https://shibe.online/api/shibes?count=10`)
-            .then(res => getData(res.data))
-    });
+    const dispatch = useDispatch();
+    useEffect(() => {
+        console.log("hellooo")
+        dispatch(getData());
+    }, [])
+    const data = useSelector((state) => state.record);
+    console.log(data);
     return (
         <>
             <h1>Home</h1>
-            <div className="item-container">
+            <div>
                 {
                     data.map(record => (
-                        <>
+                        <div key={record.id} >
                             <p>{record}</p>
                             <img src={record} alt='img' />
-                        </>
+                        </div>
                     ))
                 }
             </div>
